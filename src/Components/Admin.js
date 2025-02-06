@@ -49,9 +49,10 @@ const AdminPage = () => {
   };
 
   // Navigate to Borrowed Details Page
-  const handleViewBorrowedDetails = (book_id) => {
-    navigate(`/borrowedDetails/${book_id}`);
+  const handleViewBorrowedDetails = (bookId) => {
+    navigate(`/borrowerDetails/${bookId}`);
   };
+  
 
   // Add Book Form Handlers
   const handleInputChange = (e) => {

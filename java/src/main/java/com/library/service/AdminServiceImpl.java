@@ -1,7 +1,10 @@
 package com.library.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,8 +15,11 @@ import com.library.Exception.LibraryException;
 import com.library.controller.AdminController;
 import com.library.enity.Admin;
 import com.library.enity.Book;
+import com.library.enity.BorrowedBook;
 import com.library.repository.AdminRepository;
 import com.library.repository.BookRepository;
+import com.library.repository.BorrowedBookRepository;
+
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -24,6 +30,9 @@ public class AdminServiceImpl implements AdminService {
     @Autowired
     private BookRepository bookRepository;
 
+  
+    @Autowired
+    private BorrowedBookRepository borrowedBookRepository;
 
 	 private static final Logger log = LoggerFactory.getLogger(AdminController.class);
     @Override
@@ -40,7 +49,19 @@ public class AdminServiceImpl implements AdminService {
         log.info("Admin {} logged in successfully.", adminName);
         return admin;
     }
+   @Override
+    public List<Map<String, Object>> getBorrowerDetails(Long bookId) {
+        List<BorrowedBook> borrowedBooks = borrowedBookRepository.findByBookId(bookId);
 
+        return borrowedBooks.stream().map(bb -> {
+            Map<String, Object> borrowerInfo = new HashMap<>();
+            borrowerInfo.put("userId", bb.getUser().getId());
+            borrowerInfo.put("userName", bb.getUser().getName());
+            borrowerInfo.put("email", bb.getUser().getEmail());
+            borrowerInfo.put("returned", bb.isReturned());
+            return borrowerInfo;
+        }).collect(Collectors.toList());
+    }
 
     @Override
     public Book addBook(Book book)  {

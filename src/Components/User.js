@@ -78,8 +78,8 @@ const UserPage = () => {
       .post(`http://localhost:8080/user/checkoutBook/${userId}/${id}`)
       .then((response) => {
         alert('Book checked out successfully!');
-  
-        // Find the selected book from available books
+        window.location.reload();
+       // Find the selected book from available books
         const selectedBook = books.find((book) => book.id === id);
         if (selectedBook) {
           const borrowedDate = new Date().toISOString().split('T')[0];
@@ -115,6 +115,8 @@ const UserPage = () => {
       console.log("Return response:", response.data); // Debugging log
   
       alert('Book returned successfully!');
+
+      window.location.reload();
   
       // Update userBooks state: remove the returned book
       setUserBooks((prev) => prev.filter((book) => book.id !== id));

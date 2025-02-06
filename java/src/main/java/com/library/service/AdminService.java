@@ -1,6 +1,7 @@
 package com.library.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.library.Exception.LibraryException;
 import com.library.enity.Admin;
@@ -16,5 +17,6 @@ public interface AdminService {
 	  void decreaseBookQuantity(Long bookId) throws LibraryException;
 	   Admin login(String name, String password) throws LibraryException;
 	 //void logout(String adminName) throws LibraryException;
+	List<Map<String, Object>> getBorrowerDetails(Long bookId);
 		
  }

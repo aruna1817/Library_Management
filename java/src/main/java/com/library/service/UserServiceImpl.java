@@ -150,18 +150,18 @@ public User getUserBorrowedBooks(Long userId) throws LibraryException {
 
         // Find the borrowed book record
         BorrowedBook borrowedBook = borrowedBookRepository.findByUserId(userId).stream()
-                .filter(bb -> bb.getBook().getId().equals(bookId) && !bb.isReturned())
+                .filter(bb -> bb.getBook().getId().equals(bookId))
                 .findFirst()
                 .orElseThrow(() -> new LibraryException("This book was not borrowed by the user."));
 
-        // Mark the book as returned
-        borrowedBook.setReturned(true);
-        borrowedBookRepository.save(borrowedBook);
+        // Remove the borrowed book record from the database
+        borrowedBookRepository.delete(borrowedBook);
 
         // Increase book quantity
         book.setQuantity(book.getQuantity() + 1);
         bookRepository.save(book);
     }
+
 
     /**
      * Fetches the list of books currently borrowed by a user.

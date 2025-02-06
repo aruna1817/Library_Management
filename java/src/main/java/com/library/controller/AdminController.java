@@ -1,6 +1,7 @@
 package com.library.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,6 +47,12 @@ public class AdminController {
 	        }
 	    }
 //	 
+
+	    @GetMapping("/getBorrowerDetails/{bookId}")
+	    public ResponseEntity<List<Map<String, Object>>> getBorrowerDetails(@PathVariable Long bookId) {
+	        List<Map<String, Object>> borrowerDetails = adminService.getBorrowerDetails(bookId);
+	        return ResponseEntity.ok(borrowerDetails);
+	    }
 	    // Add a new book
 	    @PostMapping("/addBook")
 	    public ResponseEntity<Book> addBook(@RequestBody Book book) {
